@@ -6,9 +6,12 @@ var disabled = TestHelpers.tabs.disabled,
 module( "tabs: methods" );
 
 test( "destroy", function() {
-	expect( 1 );
+	expect( 2 );
 	domEqual( "#tabs1", function() {
 		$( "#tabs1" ).tabs().tabs( "destroy" );
+	});
+	domEqual( "#tabs2", function() {
+		$( "#tabs2" ).tabs().tabs( "destroy" );
 	});
 });
 
@@ -28,7 +31,7 @@ test( "enable", function() {
 });
 
 test( "enable( index )", function() {
-    expect( 10 );
+	expect( 10 );
 
 	var element = $( "#tabs1" ).tabs({ disabled: true });
 	disabled( element, true );
@@ -62,7 +65,7 @@ test( "disable", function() {
 });
 
 test( "disable( index )", function() {
-    expect( 10 );
+	expect( 10 );
 
 	var element = $( "#tabs1" ).tabs({ disabled: false });
 	disabled( element, false );
@@ -198,11 +201,7 @@ asyncTest( "load", function() {
 
 		ok( !( "originalEvent" in event ), "originalEvent" );
 		equal( uiTab.length, 1, "tab length" );
-		if ( $.uiBackCompat === false ) {
-			strictEqual( uiTab[ 0 ], tab[ 0 ], "tab" );
-		} else {
-			strictEqual( uiTab[ 0 ], tab.find( ".ui-tabs-anchor" )[ 0 ], "tab" );
-		}
+		strictEqual( uiTab[ 0 ], tab[ 0 ], "tab" );
 		equal( uiPanel.length, 1, "panel length" );
 		strictEqual( uiPanel[ 0 ], panel[ 0 ], "panel" );
 		equal( uiPanel.find( "p" ).length, 1, "panel html" );
@@ -249,11 +248,7 @@ asyncTest( "load", function() {
 
 			ok( !( "originalEvent" in event ), "originalEvent" );
 			equal( uiTab.length, 1, "tab length" );
-			if ( $.uiBackCompat === false ) {
-				strictEqual( uiTab[ 0 ], tab[ 0 ], "tab" );
-			} else {
-				strictEqual( uiTab[ 0 ], tab.find( ".ui-tabs-anchor" )[ 0 ], "tab" );
-			}
+			strictEqual( uiTab[ 0 ], tab[ 0 ], "tab" );
 			equal( uiPanel.length, 1, "panel length" );
 			strictEqual( uiPanel[ 0 ], panel[ 0 ], "panel" );
 			state( element, 0, 0, 0, 1, 0 );
@@ -262,6 +257,14 @@ asyncTest( "load", function() {
 		element.tabs( "load", 3 );
 		state( element, 0, 0, 0, 1, 0 );
 	}
+});
+
+test( "widget", function() {
+	expect( 2 );
+	var element = $( "#tabs1" ).tabs(),
+		widgetElement = element.tabs( "widget" );
+	equal( widgetElement.length, 1, "one element" );
+	strictEqual( widgetElement[ 0 ], element[ 0 ], "same element" );
 });
 
 }( jQuery ) );

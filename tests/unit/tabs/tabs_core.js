@@ -33,7 +33,7 @@ test( "nested list", function() {
 	expect( 1 );
 
 	var element = $( "#tabs6" ).tabs();
-	equal( element.data( "tabs" ).anchors.length, 2, "should contain 2 tab" );
+	equal( element.data( "ui-tabs" ).anchors.length, 2, "should contain 2 tab" );
 });
 
 test( "disconnected from DOM", function() {
@@ -42,6 +42,15 @@ test( "disconnected from DOM", function() {
 	var element = $( "#tabs1" ).remove().tabs();
 	equal( element.find( ".ui-tabs-nav" ).length, 1, "should initialize nav" );
 	equal( element.find( ".ui-tabs-panel" ).length, 3, "should initialize panels" );
+});
+
+test( "non-tab list items", function() {
+	expect( 2 );
+
+	var element = $( "#tabs9" ).tabs();
+	equal( element.tabs( "option", "active" ), 0, "defaults to first tab" );
+	equal( element.find( ".ui-tabs-nav li.ui-state-active" ).index(), 1,
+		"first actual tab is active" );
 });
 
 test( "aria-controls", function() {
@@ -123,7 +132,6 @@ test( "accessibility", function() {
 asyncTest( "accessibility - ajax", function() {
 	expect( 4 );
 	var element = $( "#tabs2" ).tabs(),
-		tab = element.find( ".ui-tabs-nav li" ).eq( 3 ),
 		panel = $( "#custom-id" );
 
 	equal( panel.attr( "aria-live" ), "polite", "remote panel has aria-live" );
@@ -147,7 +155,7 @@ asyncTest( "keyboard support - LEFT, RIGHT, UP, DOWN, HOME, END, SPACE, ENTER", 
 		panels = element.find( ".ui-tabs-panel" ),
 		keyCode = $.ui.keyCode;
 
-	element.data( "tabs" ).delay = 50;
+	element.data( "ui-tabs" ).delay = 50;
 
 	equal( tabs.filter( ".ui-state-focus" ).length, 0, "no tabs focused on init" );
 	tabs.eq( 0 ).simulate( "focus" );
@@ -298,7 +306,7 @@ asyncTest( "keyboard support - CTRL navigation", function() {
 		panels = element.find( ".ui-tabs-panel" ),
 		keyCode = $.ui.keyCode;
 
-	element.data( "tabs" ).delay = 50;
+	element.data( "ui-tabs" ).delay = 50;
 
 	equal( tabs.filter( ".ui-state-focus" ).length, 0, "no tabs focused on init" );
 	tabs.eq( 0 ).simulate( "focus" );
@@ -579,7 +587,7 @@ asyncTest( "keyboard support - CTRL+UP, ALT+PAGE_DOWN, ALT+PAGE_UP", function() 
 test( "#3627 - Ajax tab with url containing a fragment identifier fails to load", function() {
 	expect( 1 );
 
-	var element = $( "#tabs2" ).tabs({
+	$( "#tabs2" ).tabs({
 		active: 2,
 		beforeLoad: function( event, ui ) {
 			event.preventDefault();
@@ -591,16 +599,16 @@ test( "#3627 - Ajax tab with url containing a fragment identifier fails to load"
 test( "#4033 - IE expands hash to full url and misinterprets tab as ajax", function() {
 	expect( 2 );
 
-	var element = $( "<div><ul><li><a href='#tab'>Tab</a></li></ul><div id='tab'></div></div>" );
-	element.appendTo( "#main" );
+	var element = $("<div><ul><li><a href='#tab'>Tab</a></li></ul><div id='tab'></div></div>");
+	element.appendTo("#qunit-fixture");
 	element.tabs({
-		beforeLoad: function( event, ui ) {
+		beforeLoad: function() {
 			event.preventDefault();
 			ok( false, "should not be an ajax tab" );
 		}
 	});
 
-	equal( element.find( ".ui-tabs-nav li" ).attr( "aria-controls" ), "tab", "aria-contorls attribute is correct" );
+	equal( element.find(".ui-tabs-nav li").attr("aria-controls"), "tab", "aria-contorls attribute is correct" );
 	state( element, 1 );
 });
 

@@ -6,7 +6,7 @@
  * Released under the MIT license.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Effects/Transfer
+ * http://api.jqueryui.com/transfer-effect/
  *
  * Depends:
  *	jquery.ui.effect.js
@@ -28,7 +28,7 @@ $.effects.effect.transfer = function( o, done ) {
 			width: target.innerWidth()
 		},
 		startPosition = elem.offset(),
-		transfer = $( '<div class="ui-effects-transfer"></div>' )
+		transfer = $( "<div class='ui-effects-transfer'></div>" )
 			.appendTo( document.body )
 			.addClass( o.className )
 			.css({
